@@ -23,6 +23,6 @@ var cb1 = function (req, res) {
 }
 
 // faz a chamada para a matriz de funcao
-router.get('/:endId', [cb0, cb1]);
+router.get('/q/:endId', [cb0, cb1]);
 
 module.exports = router;

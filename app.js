@@ -1,6 +1,7 @@
 var express = require('express');
 
 var indexRouter = require('./routes/index');
+var registerRouter = require('./routes/register');
 
 var app = express();
 
@@ -8,7 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/', indexRouter);
-app.use('/teste', indexRouter);
+app.use('/', registerRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
