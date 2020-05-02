@@ -1,31 +1,18 @@
 var mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const Post = new Schema({
+const Comment = new Schema({
     author: {
         type: String,
         required: true
     },
-    title: {
+    post: {
         type: String,
         required: true
-    },
-    listComments: {
-        type: String
-    },
-    idComments: {
-        type: String
     },
     body: {
         type: String,
         required: true
-    },
-    reaction: {
-        type: String,
-        enum: ['like', 'hate']
-    },
-    categories: {
-        type: String
     },
     created_at: {
         type: Date,
@@ -34,6 +21,6 @@ const Post = new Schema({
 });
 
 // const MyModel = mongoose.model('ModelName', mySchema);
-const postModel = mongoose.model('PostModel', Post);
+const commentModel = mongoose.model('CommentModel', Comment);
 
-module.exports = postModel
+module.exports = commentModel

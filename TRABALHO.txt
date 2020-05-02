@@ -1,0 +1,19 @@
+Trabalho Avaliação 1 Bimestre ARTIN/ANEV
+
+Data de entrega: 04/05/2020.
+
+Avaliação: Será corrigido o código fonte de cada aluno, perguntas serão feitas.
+O trabalho deverá ser feito individualmente.
+
+Entrega: Deverá ser feita via e-mail até o dia 04/05/2020 às 19h, antes do início das
+correções.
+
+Trabalho: desenvolva uma aplicação em NodeJS que seja capaz de receber requisições do tipo
+GET, POST, DELETE e PUT e faça interação com o banco de dados MongoDB.
+O trabalho deverá representar o Back-end de um Blog, ou seja, você deverá construir métodos
+para a Inserção, Atualização, Exclusão e Consulta de POSTS. A troca de informação deverá ser
+feita utilizando JSON e você deverá utilizar o Postman (ou Insomnia), para representar o Front-
+End de seu site.
+A base de dados do Blog deverá ser criada em MongoDB e os campos e tabela deverão possuir
+a lógica de um BLOG simples. Ou seja, o aluno está livre para criar sua própria tabela para
+armazenar informações.

@@ -1,8 +1,8 @@
 {
   "name": "api",
-  "author": "Rodrigo dos Santos Felix and Gabriel Violante Sartori",
+  "author": "Rodrigo dos Santos Felix",
   "version": "1.0.0",
-  "description": "User Manager in NodeJS",
+  "description": "blog Manager in NodeJS",
   "license": "Apache-2.0",
   "scripts": {
     "start": "node ./bin/www"

@@ -1,14 +1,17 @@
 var express = require('express');
 
-var indexRouter = require('./routes/index');
+var comentarioRouter = require('./routes/comentario');
 var postRouter = require('./routes/post');
+var indexRouter = require('./routes/index')
 
 var app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/', indexRouter, postRouter);
+app.use('/', postRouter);
+app.use('/', comentarioRouter);
+app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

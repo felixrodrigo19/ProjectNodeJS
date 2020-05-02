@@ -1,6 +1,6 @@
 var mongoose = require('mongoose')
 
-mongoose.set('useFindAndModify', true)
+mongoose.set('useFindAndModify', false);
 
 module.exports = {
     async conectar() {

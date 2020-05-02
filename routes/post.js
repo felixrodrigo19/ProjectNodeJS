@@ -3,89 +3,109 @@ var router = express.Router();
 const mongooseDB = require('../model/connection')
 const postDB = require('../model/posts')
 
-// Busca no banco a ultima postagem
-router.get('/blog', async (req, res) => {
-    mongooseDB.conectar()
-    try {
-        let lastPost = await postDB.findOne().sort({ _id: -1 })
-        //MySchema.find().sort({ _id: -1 }).limit(10)
-        res.json(lastPost)
+function checkParam(paramOfBody) {
 
-        mongooseDB.close()
-    } catch (err) {
-        console.log(err)
-        mongooseDB.close()
+    let author = paramOfBody.author
+    let title = paramOfBody.title
+    let body = paramOfBody.body
+    if ((!author) || (!title) || (!body)) {
+        if (!author) var msg = "O post não pode ser enviado sem um autor"
+
+        if (!title) var msg = "O post não pode ser enviado sem um titulo"
+
+        if (!body) var msg = "O post não pode ser enviado sem nenmhum conteúdo"
+        return { msg, isValid: false }
     }
-});
+    else return ({ isValid: true })
+}
 
+router.route('/blog')
 
-router.route('/blog/pc/')
-    .all(function (req, res, next) {
-        // runs for all HTTP verbs first
-        // think of it as route specific middleware!
-        next()
-    })
     .get(async function (req, res, next) {
         mongooseDB.conectar()
-
         try {
-            let postOfPc = await postDB.find().where({ categories: 'PC' }).sort({ _id: -1 })
-
-            res.json(postOfPc)
-
+            let lastPost = await postDB.find().sort({ _id: -1 })
+            res.json(lastPost)
             mongooseDB.close()
         } catch (err) {
             console.log(err)
             mongooseDB.close()
         }
     })
+
     .put(async function (req, res, next) {
+        let where = req.body.id
+        let data = req.body
+
+
 
         mongooseDB.conectar()
         try {
-            console.log(req.body)
-            let data = req.body
-            let where = { _id: data.id }
-            let update = data
+            if ((!where) || (where.length != 24)) {
+                let msg = "Para atualizar um post, deve ser fornecido um ID com 24 caracteres"
+                res.json({ msg })
+            } else {
+                let results = await postDB.findById(_id = where)
+                if (!results) {
+                    let msg = "Post não encontrado. Impossível atualizar "
+                    res.json({ msg })
+                }
 
-            let updatePost = await postDB.findOneAndUpdate(where, update)
-
-            res.json(updatePost)
+                else {
+                    let updatePost = await postDB.findByIdAndUpdate(where, data)
+                    res.json(updatePost)
+                }
+            }
             mongooseDB.close()
-
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err)
             mongooseDB.close()
         }
     })
+
     .post(async function (req, res, next) {
-        let author = req.body.author
-        let title = req.body.title
-        let body = req.body.body
+        let data = req.body
 
-        if ((!author) || (!title) || (!body)) {
-            res.json('O post não deve ser publicado sem um título, autor ou nenhum conteúdo')
-        }
+        let isNotValid = checkParam(data)
 
         mongooseDB.conectar()
         try {
-            console.log(req.body)
-            let post = await postDB.create(req.body)
-            res.json(post)
+            if (isNotValid.isValid == true) {
+                let post = await postDB.create(data)
+                res.json(post)
+            }
+            else {
+                res.json(isNotValid.msg)
+            }
             mongooseDB.close()
+
         } catch (err) {
             console.log(err)
             mongooseDB.close()
         }
     })
+
     .delete(async function (req, res, next) {
         mongooseDB.conectar()
 
         try {
             let id = req.body.id
-            let excluir = await postDB.findByIdAndDelete(id)
+            if ((!id) || (id.length != 24)) {
+                let msg = "Para deletar um post, deve ser fornecido um ID com 24 caracteres"
+                res.json({ msg })
+            } else {
+                let results = await postDB.findById(_id = id)
+                if (!results) {
+                    let msg = "Post não encontrado. Impossível deletar "
+                    res.json({ msg })
+                }
+                else {
+                    let excluir = await postDB.findByIdAndDelete(id)
 
-            res.json(excluir)
+                    res.json(excluir)
+                }
+            }
             mongooseDB.close()
         } catch (err) {
             console.log(err)
