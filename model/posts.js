@@ -21,7 +21,7 @@ const Post = new Schema({
         required: true
     },
     reaction: {
-        type: String,
+       // type: String,
         enum: ['like', 'hate']
     },
     categories: {
