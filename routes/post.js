@@ -21,7 +21,7 @@ function checkParam(paramOfBody) {
 
 router.route('/blog')
 
-    .get(async function (req, res, next) {
+    .get(async function (req, res) {
         mongooseDB.conectar()
         try {
             let lastPost = await postDB.find().sort({ _id: -1 })
@@ -33,7 +33,7 @@ router.route('/blog')
         }
     })
 
-    .put(async function (req, res, next) {
+    .put(async function (req, res) {
         let where = req.body.id
         let data = req.body
 
@@ -45,7 +45,7 @@ router.route('/blog')
                 let msg = "Para atualizar um post, deve ser fornecido um ID com 24 caracteres"
                 res.json({ msg })
             } else {
-                let results = await postDB.findById(_id = where)
+                let results = await postDB.findById(where)
                 if (!results) {
                     let msg = "Post não encontrado. Impossível atualizar "
                     res.json({ msg })
@@ -64,7 +64,7 @@ router.route('/blog')
         }
     })
 
-    .post(async function (req, res, next) {
+    .post(async function (req, res) {
         let data = req.body
 
         let isNotValid = checkParam(data)
@@ -86,7 +86,7 @@ router.route('/blog')
         }
     })
 
-    .delete(async function (req, res, next) {
+    .delete(async function (req, res) {
         mongooseDB.conectar()
 
         try {
@@ -95,7 +95,8 @@ router.route('/blog')
                 let msg = "Para deletar um post, deve ser fornecido um ID com 24 caracteres"
                 res.json({ msg })
             } else {
-                let results = await postDB.findById(_id = id)
+                
+                let results = await postDB.findById(id)
                 if (!results) {
                     let msg = "Post não encontrado. Impossível deletar "
                     res.json({ msg })
