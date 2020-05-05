@@ -23,9 +23,16 @@ router.route('/blog')
 
     .get(async function (req, res) {
         mongooseDB.conectar()
+        let byId = req.body.id
         try {
-            let lastPost = await postDB.find().sort({ _id: -1 })
-            res.json(lastPost)
+            if (byId) {
+                let thisPost = await postDB.findById(byId)
+                res.json(thisPost)
+            }
+            else {
+                let lastPost = await postDB.find().sort({ _id: -1 })
+                res.json(lastPost)
+            }
             mongooseDB.close()
         } catch (err) {
             console.log(err)
@@ -95,7 +102,7 @@ router.route('/blog')
                 let msg = "Para deletar um post, deve ser fornecido um ID com 24 caracteres"
                 res.json({ msg })
             } else {
-                
+
                 let results = await postDB.findById(id)
                 if (!results) {
                     let msg = "Post não encontrado. Impossível deletar "
